@@ -22,23 +22,22 @@ public class DrivetrainIOReal implements DrivetrainIO{
         backRight = new SparkMax(br, MotorType.kBrushless);
 
         SparkMaxConfig config = new SparkMaxConfig();
-        SparkMaxConfig leftConfig = new SparkMaxConfig();
+        SparkMaxConfig invertedConfig = new SparkMaxConfig();
 
         config.idleMode(IdleMode.kCoast);
         config.smartCurrentLimit(50);
-        config.inverted(false);
 
-        leftConfig.inverted(true);
-        leftConfig.idleMode(IdleMode.kCoast);
-        leftConfig.smartCurrentLimit(50);
+        invertedConfig.idleMode(IdleMode.kCoast);
+        invertedConfig.smartCurrentLimit(50);
+        invertedConfig.inverted(true);
 
-        frontLeft.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        backLeft.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        backLeft.configure(invertedConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        frontRight.configure(invertedConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        frontRight.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        frontLeft.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         backRight.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        leftConfig.follow(frontLeft);
+        invertedConfig.follow(frontLeft);
         config.follow(frontRight);
 
     }
